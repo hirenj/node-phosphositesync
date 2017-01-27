@@ -1,0 +1,56 @@
+{
+"sources" : {
+  "files" : [ "regulatory.tsv" ]
+},
+"preprocess" : {
+  "data" : {
+    "$[*].uniprot" : {
+      "uniprot" : "@.acc_id",
+      "self_taxid" : "$.(organism_ids[@.organism])",
+      "taxid" : "$.(+taxid)",
+      "sites" : [ "$.(match(@.mod_rsd,'(\\\\d+)'))", {"ARRAY": "true", "0" : "$.(+@.value)", "1" : "Phospho" } ]
+    }
+  }
+},
+"template" :{
+  "data" : {
+    "$.data[?(@[0].taxid == @[0].self_taxid)].uniprot" : {
+      "uniprot" : "$[0].uniprot",
+      "sites" : [ "$[*]", {"ARRAY": "true", "0" : "$.sites[0][0]", "1" : "Phospho" } ],
+      "class" : "regulatory"
+    }
+  },
+  "metadata": {
+    "msdata-version" : "1.2",
+    "data-version" : "$.(version)",
+    "software" : {"ARRAY": "true", "0" : { "name" : "hirenj/node-phosphositesync", "version" : "$.(git)" , "run-date" : "$.(timestamp)" }},
+    "sample" : {
+      "species" : "$.(+taxid)"
+    },
+    "title" : "PhosphoSite plus regulatory sites",
+    "mimetype" : "application/json+msdata"
+  }
+},
+"environment" : {
+  "organism_ids" : {
+    "cat" : 9685,
+    "chicken" : 9031,
+    "cow" : 9913,
+    "dog" : 9615,
+    "ferret" : 9669,
+    "frog" : 8355,
+    "goat" : 9925,
+    "guinea pig" : 10141,
+    "hamster" : 10026,
+    "human" : 9606,
+    "monkey" : 9483,
+    "mouse" : 10090,
+    "pig" : 9823,
+    "quail" : 93934,
+    "rabbit" : 9986,
+    "rat" : 10116,
+    "sheep" : 9940,
+    "starfish" : 7588
+  }
+}
+}

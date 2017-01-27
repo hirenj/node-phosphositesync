@@ -1,0 +1,19 @@
+version: 0.1
+
+phases:
+  install:
+    commands:
+      - npm install -g hirenj/node-reciperunner
+  pre_build:
+    commands:
+      - bash ./check_versions.sh $BUILD_TAXONOMY
+  build:
+    commands:
+      - if [ ! -e sources/regulatory.tsv ]; then curl -Sss 'http://www.phosphosite.org/downloads/Regulatory_sites.gz' | gunzip | tail -n+4 > sources/regulatory.tsv; fi
+      - bash ./run_taxonomies.sh $BUILD_TAXONOMY
+  post_build:
+    commands:
+      - echo "Skipping post_build"
+artifacts:
+  files:
+    - dist
