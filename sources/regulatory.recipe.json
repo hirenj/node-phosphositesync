@@ -27,7 +27,7 @@
     "sample" : {
       "species" : "$.(+taxid)"
     },
-    "title" : "PhosphoSite plus regulatory sites",
+    "title" : "$.('PhosphoSite plus regulatory sites '+taxid)",
     "mimetype" : "application/json+msdata"
   }
 },
