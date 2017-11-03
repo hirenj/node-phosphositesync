@@ -6,7 +6,17 @@ echo "Checking for existing PhosphoSite data for $taxids"
 
 exit_code=1
 
-regulatory_site_version=$(checkversion --remote 'http://www.phosphosite.org/downloads/Regulatory_sites.gz' --header='Last-Modified' --print-remote | { read remote ; date --date="$remote" +"%Y-%m-%d"; })
+function convert_date {
+	remote_date=$1
+	if date --version >/dev/null 2>&1 ; then
+	    date --date="$remote_date" +"%Y-%m-%d"
+	else
+		date -jf "%a, %d %b %Y" "$remote_date" +"%Y-%m-%d"
+	fi
+}
+
+
+regulatory_site_version=$(checkversion --remote 'https://www.phosphosite.org/downloads/Regulatory_sites.gz' --header='Last-Modified' --print-remote | { read remote ; convert_date "$remote";  })
 
 for taxid in ${taxids//,/ }; do
 	echo "Checking existence of PhosphoSite data for $taxid"

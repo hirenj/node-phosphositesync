@@ -9,7 +9,7 @@ phases:
       - bash ./check_versions.sh $BUILD_TAXONOMY
   build:
     commands:
-      - if [ ! -e sources/regulatory.tsv ]; then curl -Sss 'http://www.phosphosite.org/downloads/Regulatory_sites.gz' | gunzip | tail -n+4 > sources/regulatory.tsv; fi
+      - if [ ! -e sources/regulatory.tsv ]; then curl -Sss 'https://www.phosphosite.org/downloads/Regulatory_sites.gz' | gunzip | tail -n+4 > sources/regulatory.tsv; fi
       - bash ./run_taxonomies.sh $BUILD_TAXONOMY
   post_build:
     commands:
