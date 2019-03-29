@@ -35,5 +35,5 @@ if [ $exit_code -eq 0 ]; then
 else
 	echo "PhosphoSite regulatory files are up to date"
 	touch VERSION_MATCHING
-	false
+	exit 2
 fi
